@@ -1,0 +1,26 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Instalar Node.js'
+
+  - script: |
+      npm install
+      npm run start &
+    displayName: 'Instalar dependencias y arrancar app'
+
+  - script: |
+      echo "Simulando pruebas unitarias"
+    displayName: 'Pruebas unitarias (simuladas)'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(System.DefaultWorkingDirectory)'
+      ArtifactName: 'demo-paquete'
+      publishLocation: 'Container'
